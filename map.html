@@ -53,13 +53,13 @@
         var geojson;
 
         function getColor(d) {
-            return d > 100 ? '#800026' :
-                d > 80 ? '#BD0026' :
-                    d > 70 ? '#E31A1C' :
-                        d > 60 ? '#FC4E2A' :
+            return d > 1000 ? '#800026' :
+                d > 500 ? '#BD0026' :
+                    d > 200 ? '#E31A1C' :
+                        d > 100 ? '#FC4E2A' :
                             d > 50 ? '#FD8D3C' :
-                                d > 40 ? '#FEB24C' :
-                                    d > 30 ? '#FED976' :
+                                d > 20 ? '#FEB24C' :
+                                    d > 10 ? '#FED976' :
                                         '#FFEDA0';
         }
 
@@ -106,7 +106,7 @@
                 mouseout: resetHighlight,
                 click: zoomToFeature
             });
-            layer.bindPopup(`<strong>${feature.properties.TYPE_2} ${feature.properties.NAME_2}</strong><br>${feature.properties.density}`, {
+            layer.bindPopup(`<strong>${feature.properties.TYPE_2} ${feature.properties.NAME_2}</strong><br>${feature.properties.density*10}kg/người/ngày`, {
                 closeButton: false,
                 className: 'my-popup'
             });
