@@ -107,7 +107,7 @@
                 mouseout: resetHighlight,
                 click: zoomToFeature
             });
-            layer.bindPopup(`<strong>${feature.properties.TYPE_2} ${feature.properties.NAME_2}</strong><br>${feature.properties.density*10}kg/người/ngày`, {
+            layer.bindPopup(`<strong>${feature.properties.TYPE_2} ${feature.properties.NAME_2}</strong><br>${feature.properties.density/100}kg/người/ngày`, {
                 closeButton: false,
                 className: 'my-popup'
             });
