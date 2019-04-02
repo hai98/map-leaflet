@@ -42,6 +42,7 @@
         integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
         crossorigin=""></script>
     <script src="map.geojson"></script>
+    <script src="points.geojson"></script>
     <script>
         var mymap = L.map('mapid').setView([21.0366420, 105.7802457], 10);
 
@@ -115,8 +116,39 @@
         geojson = L.geoJson(geodata, {
             style: style,
             onEachFeature: onEachFeature
-        }).addTo(mymap);
+        });
+        // .addTo(mymap);
 
+        var pointsjson = L.geoJson(points, {
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(feature.properties.name, {
+                    className: 'my-popup',
+                    closeButton: false
+                });
+                layer.on({
+                    mouseover: e => e.target.openPopup(),
+                    mouseout: e => e.target.closePopup()
+                })
+            },
+            pointToLayer: (feature, latlng) => {
+                return L.circle(latlng, {
+                    radius: feature.properties.radius,
+                    fillColor: '#ff7800',
+                    color: '#000',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                });
+            }
+        });
+        // .addTo(mymap);
+
+        var overlayMaps = {
+            "Layer": geojson,
+            "Points": pointsjson
+        };
+
+        L.control.layers({}, overlayMaps).addTo(mymap);
     </script>
 </body>
 
