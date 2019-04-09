@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible">
     <title>Map</title>
+    <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
         integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
         crossorigin="" />
@@ -31,13 +32,84 @@
         .my-popup {
             pointer-events: none;
         }
+
+        .legend {
+            line-height: 18px;
+            color: #555;
+        }
+
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+
+        .list-map {
+            bottom: 0;
+            top: unset
+        }
     </style>
 </head>
 
 <body>
-    <div id="mapid">
-
+    <div class="list-map">
+        <h4>Tùy chọn</h4>
+        <ul>
+            <a href="../../Dashboard/Nhom1/index.html">
+                <li>Bản đồ mất điện</li>
+            </a>
+            <a href="../../Dashboard/Nhom2/map.html">
+                <li>Bản đồ chất lượng nước</li>
+            </a>
+            <a href="../../Dashboard/Nhom3/index.html">
+                <li>Quản lý nước thải</li>
+            </a>
+            <a href="../../Dashboard/Nhom4/map.html">
+                <li>Quản lý rác thải</li>
+            </a>
+            <a href="../../Dashboard/Nhom5/index.html">
+                <li>Trạm cứu hỏa</li>
+            </a>
+            <a href="../../Dashboard/Nhom6/index.html">
+                <li>Đồn cảnh sát</li>
+            </a>
+            <a href="../../Dashboard/Nhom7/index.html">
+                <li>Bệnh viện</li>
+            </a>
+            <a href="../../Dashboard/Nhom8/index.html">
+                <li>Công viên</li>
+            </a>
+            <a href="../../Dashboard/Nhom9/index.html">
+                <li>Trường mẫu giáo</li>
+            </a>
+            <a href="../../Dashboard/Nhom10/index.html">
+                <li>Trường tiểu học</li>
+            </a>
+            <a href="../../Dashboard/Nhom11/index.html">
+                <li>Trường THCS</li>
+            </a>
+            <a href="../../Dashboard/Nhom12/index.html">
+                <li>Trường THPT và Đại học</li>
+            </a>
+            <a href="../../Dashboard/Nhom13/index.html">
+                <li>Trạm xe bus</li>
+            </a>
+            <a href="../../Dashboard/Nhom14/index.html">
+                <li>Quán karaoke</li>
+            </a>
+            <a href="../../Dashboard/Nhom15/index.html">
+                <li>Rạp chiếu phim</li>
+            </a>
+            <a href="../../Dashboard/Nhom16/index.html">
+                <li>Quán cà phê</li>
+            </a>
+        </ul>
     </div>
+
+    <div id="mapid"></div>
+
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
         integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
         crossorigin=""></script>
@@ -107,7 +179,7 @@
                 mouseout: resetHighlight,
                 click: zoomToFeature
             });
-            layer.bindPopup(`<strong>${feature.properties.TYPE_2} ${feature.properties.NAME_2}</strong><br>${feature.properties.density/100}kg/người/ngày`, {
+            layer.bindPopup(`<strong>${feature.properties.TYPE_2} ${feature.properties.NAME_2}</strong><br>${feature.properties.density / 100}kg/người/ngày`, {
                 closeButton: false,
                 className: 'my-popup'
             });
@@ -149,6 +221,26 @@
         };
 
         L.control.layers({}, overlayMaps).addTo(mymap);
+
+        var legend = L.control({ position: 'bottomleft' });
+
+        legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+                labels = [];
+
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                    grades[i] / 100 + (grades[i + 1] ? '&ndash;' + grades[i + 1] / 100 + '<br>' : '+');
+            }
+
+            return div;
+        };
+
+        legend.addTo(mymap)
     </script>
 </body>
 
